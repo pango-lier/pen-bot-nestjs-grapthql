@@ -28,7 +28,7 @@ services:
       - 3303:3306
 
   redis:
-    container_name: ads_redis
+    container_name: pens_redis
     image: redis:7-alpine
     restart: always
     volumes:
