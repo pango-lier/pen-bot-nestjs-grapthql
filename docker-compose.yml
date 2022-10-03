@@ -50,6 +50,8 @@ services:
       - 9228:9228
     env_file:
       - .env
+    networks:
+      - pendbot
     volumes:
       - ./:/home/node/app
     command: yarn start:debug

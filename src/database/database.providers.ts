@@ -13,7 +13,7 @@ export const databaseProviders = [
         host: 'db',
         port: 3306,
         username: 'root',
-        password: 'root@123',
+        password: 'root',
         database: 'penbot',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
