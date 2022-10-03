@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TodoItemModule } from './todo-item/todo-item.module';
 import { DatabaseModule } from './database/database.module';
+import { EnvModule } from './env/env.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DatabaseModule } from './database/database.module';
       playground: false,
     }),
     // TodoItemModule,
+    EnvModule,
   ],
   controllers: [AppController],
   providers: [AppService],
