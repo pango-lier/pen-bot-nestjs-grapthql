@@ -15,7 +15,7 @@ import { DataSource } from 'typeorm';
       dataSourceFactory: async (options) => {
         if (!options) throw new Error('Invalid options passed');
         const dataSource = new DataSource(options);
-return        await dataSource.initialize();
+        return await dataSource.initialize();
         // return addTransactionalDataSource(dataSource);
       },
     }),

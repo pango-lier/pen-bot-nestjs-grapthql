@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { TodoItemModule } from './todo-item/todo-item.module';
 import { DatabaseModule } from './database/database.module';
+import { TutorialModule } from './tutorial/tutorial.module';
 import { EnvModule } from './env/env.module';
 
 @Module({
@@ -12,10 +12,46 @@ import { EnvModule } from './env/env.module';
     DatabaseModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      debug: false,
-      playground: false,
+      autoSchemaFile: true,
+      sortSchema: true,
+      playground: true,
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        'subscriptions-transport-ws': {
+          onConnect: (headersRaw: Record<string, unknown>) => {
+            // Lowercase each header key
+            const headers = Object.keys(headersRaw).reduce((dest, key) => {
+              dest[key.toLowerCase()] = headersRaw[key];
+              return dest;
+            }, {});
+            return {
+              req: {
+                headers: headers,
+              },
+            };
+          },
+        },
+        'graphql-ws': {
+          path: '/subscriptions',
+        },
+      },
+      context: (context) => {
+        if (context?.extra?.request) {
+          return {
+            req: {
+              ...context?.extra?.request,
+              headers: {
+                ...context?.extra?.request?.headers,
+                ...context?.connectionParams,
+              },
+            },
+          };
+        }
+        return { req: context?.req };
+      },
     }),
     // TodoItemModule,
+    TutorialModule,
     EnvModule,
   ],
   controllers: [AppController],
