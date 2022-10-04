@@ -1,11 +1,12 @@
-import { FilterableField, IDField } from '@nestjs-query/query-graphql';
 import {
-  Field,
-  GraphQLISODateTime,
-  ID,
-  InputType,
-  ObjectType,
-} from '@nestjs/graphql';
+  BeforeCreateMany,
+  BeforeCreateOne,
+  BeforeUpdateMany,
+  BeforeUpdateOne,
+  FilterableField,
+  IDField,
+} from '@nestjs-query/query-graphql';
+import { GraphQLISODateTime, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { Exclude, Type } from 'class-transformer';
 import {
   IsBoolean,
@@ -15,9 +16,19 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
+import {
+  HashPasswordCreateManyHook,
+  HashPasswordCreateOneHook,
+  HashPasswordUpdateManyHook,
+  HashPasswordUpdateOneHook,
+} from '../hooks/hash-password.hook';
 
 @InputType('UserDtoInput')
 @ObjectType()
+@BeforeCreateOne(HashPasswordCreateOneHook)
+@BeforeCreateMany(HashPasswordCreateManyHook)
+@BeforeUpdateOne(HashPasswordUpdateOneHook)
+@BeforeUpdateMany(HashPasswordUpdateManyHook)
 export class UserDto {
   @IDField(() => ID)
   id?: number;
@@ -61,11 +72,11 @@ export class UserDto {
 
   @Type(() => Date)
   @FilterableField(() => GraphQLISODateTime)
-  createdAt: Date;
+  createdAt?: Date;
 
   @Type(() => Date)
   @FilterableField(() => GraphQLISODateTime)
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Type(() => Date)
   @FilterableField(() => GraphQLISODateTime)

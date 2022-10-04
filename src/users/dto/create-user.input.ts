@@ -6,4 +6,7 @@ export class CreateUserInput extends OmitType(UserDto, [
   'id',
   'createdAt',
   'updatedAt',
+  'deletedAt',
+  'refreshToken',
+  'rememberToken',
 ]) {}
