@@ -6,6 +6,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from './database/database.module';
 import { TutorialModule } from './tutorial/tutorial.module';
 import { EnvModule } from './env/env.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { EnvModule } from './env/env.module';
     // TodoItemModule,
     TutorialModule,
     EnvModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
