@@ -31,6 +31,6 @@ const notificationsQueryTypeOrmModule = NestjsQueryTypeOrmModule.forFeature([
     notificationsQueryTypeOrmModule,
   ],
 
-  exports: [notificationsQueryTypeOrmModule],
+  exports: [notificationsQueryTypeOrmModule, NotificationsService],
 })
 export class NotificationsModule {}
