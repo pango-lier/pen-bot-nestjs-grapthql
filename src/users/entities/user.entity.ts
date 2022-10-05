@@ -1,9 +1,11 @@
 import { ObjectType } from '@nestjs/graphql';
+import { Notification } from 'src/notifications/entities/notification.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -40,4 +42,9 @@ export class User {
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
+
+  @OneToMany(() => Notification, (notification) => notification.user, {
+    nullable: true,
+  })
+  notifications?: Notification[];
 }
