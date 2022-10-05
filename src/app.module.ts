@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -8,7 +8,14 @@ import { TutorialModule } from './tutorial/tutorial.module';
 import { EnvModule } from './env/env.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { BullModule, InjectQueue } from '@nestjs/bullmq';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
+import { createBullBoard } from '@bull-board/api';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { ExpressAdapter } from '@bull-board/express';
+import { Queue } from 'bullmq';
 @Module({
   imports: [
     DatabaseModule,
@@ -52,6 +59,23 @@ import { UsersModule } from './users/users.module';
         return { req: context?.req };
       },
     }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get('queue'),
+      }),
+    }),
+    BullModule.registerQueue({
+      name: 'demo',
+    }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get('ioredis'),
+      }),
+    }),
     // TodoItemModule,
     TutorialModule,
     EnvModule,
@@ -61,4 +85,18 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  serverAdapter = new ExpressAdapter();
+  constructor(@InjectQueue('demo') private queue: Queue) {
+    this.serverAdapter.setBasePath('/admin/queues');
+    createBullBoard({
+      queues: [new BullMQAdapter(queue)],
+      serverAdapter: this.serverAdapter,
+    });
+  }
+
+  configure(consumer: MiddlewareConsumer) {
+    const bullBoardRouter = this.serverAdapter.getRouter();
+    consumer.apply(bullBoardRouter).forRoutes('/admin/queues');
+  }
+}
