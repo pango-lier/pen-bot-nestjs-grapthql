@@ -5,6 +5,7 @@ import { InjectQueue } from '@nestjs/bullmq';
 export class AppService {
   constructor(@InjectQueue('demo') private queue: Queue) {}
   getHello(): string {
+    this.queue.add('trong', { ok: 'lalral' });
     return 'Hello World!';
   }
 }

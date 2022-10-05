@@ -16,6 +16,8 @@ import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
 import { Queue } from 'bullmq';
+import { join } from 'path';
+import { QueueBullMqModule } from './queue-bull-mq/queue-bull-mq.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -68,6 +70,7 @@ import { Queue } from 'bullmq';
     }),
     BullModule.registerQueue({
       name: 'demo',
+      // processors: [join(__dirname, 'queue-bull-mq/demo.processor.js')],
     }),
     RedisModule.forRootAsync({
       imports: [ConfigModule],
@@ -81,6 +84,7 @@ import { Queue } from 'bullmq';
     EnvModule,
     AuthModule,
     UsersModule,
+    QueueBullMqModule,
   ],
   controllers: [AppController],
   providers: [AppService],
