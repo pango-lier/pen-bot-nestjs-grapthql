@@ -48,6 +48,7 @@
     "dataloader": "^2.1.0",
     "env-var": "^7.3.0",
     "graphql": "^16.6.0",
+    "graphql-redis-subscriptions": "^2.5.0",
     "graphql-scalars": "^1.18.0",
     "graphql-subscriptions": "^2.0.0",
     "ioredis": "^5.2.3",
