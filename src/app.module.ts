@@ -18,6 +18,7 @@ import { ExpressAdapter } from '@bull-board/express';
 import { Queue } from 'bullmq';
 import { join } from 'path';
 import { QueueBullMqModule } from './queue-bull-mq/queue-bull-mq.module';
+import { NotificationsModule } from './notifications/notifications.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -85,6 +86,7 @@ import { QueueBullMqModule } from './queue-bull-mq/queue-bull-mq.module';
     AuthModule,
     UsersModule,
     QueueBullMqModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
