@@ -5,10 +5,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Role } from '../roles/entities/role.entity';
 
 @ObjectType()
 @Entity()
@@ -36,6 +37,9 @@ export class User {
 
   @Column('bool', { default: true })
   active?: boolean;
+
+  @ManyToOne(() => Role, (role) => role.user)
+  roles: Role[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
