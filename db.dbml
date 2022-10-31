@@ -27,7 +27,7 @@ Table bills {
   payment_method varchar
   payment_email varchar
   payment_phone varchar
-  payment_target varchar  
+  payment_target varchar
   tax_cost decimal(8,2)
   vat_cost decimal(8,2)
   grandtotal decimal(8,2)
