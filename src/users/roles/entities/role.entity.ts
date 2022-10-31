@@ -1,5 +1,4 @@
 import { InputType, ObjectType } from '@nestjs/graphql';
-import { use } from 'passport';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,

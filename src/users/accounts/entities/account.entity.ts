@@ -1,7 +1,38 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+import { Group } from 'src/users/groups/entities/group.entity';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
+@InputType("AccountInput")
 @ObjectType()
+@Entity()
 export class Account {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @PrimaryColumn({ type: "bigint" })
+  id: number
+
+  @Column({ type: "varchar", nullable: true })
+  name: string
+
+  @Column({ type: "varchar", nullable: true })
+  proxyId: string
+
+  @Column({ type: "varchar", nullable: true })
+  proxyType: string
+
+  @Column('bool', { default: true })
+  active?: boolean;
+
+  @Column({ type: "timestamp", nullable: true })
+  expiresAt?: Date;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp' })
+  deletedAt?: Date;
+
+  @ManyToOne(() => Group, (group) => group.accounts)
+  group?: Group
 }

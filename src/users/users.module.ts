@@ -11,6 +11,7 @@ import { AccountsModule } from './accounts/accounts.module';
 
 import { NotificationsService } from 'src/notifications/notifications.service';
 import { NotificationsModule } from 'src/notifications/notifications.module';
+import { GroupsModule } from './groups/groups.module';
 
 
 @Module({
@@ -24,6 +25,7 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
     RolesModule,
     AccountsModule,
     NotificationsModule,
+    GroupsModule,
   ],
   exports: [UsersService],
 })
