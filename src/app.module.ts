@@ -19,6 +19,9 @@ import { Queue } from 'bullmq';
 import { join } from 'path';
 import { QueueBullMqModule } from './queue-bull-mq/queue-bull-mq.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { SocialsModule } from './socials/socials.module';
+import { ArticlesModule } from './articles/articles.module';
+import { LinksModule } from './links/links.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -87,6 +90,9 @@ import { NotificationsModule } from './notifications/notifications.module';
     UsersModule,
     QueueBullMqModule,
     NotificationsModule,
+    SocialsModule,
+    ArticlesModule,
+    LinksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

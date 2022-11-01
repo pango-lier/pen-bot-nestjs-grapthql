@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+import { Social } from 'src/socials/entities/social.entity';
 import { Group } from 'src/users/groups/entities/group.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @InputType("AccountInput")
 @ObjectType()
@@ -35,4 +36,9 @@ export class Account {
 
   @ManyToOne(() => Group, (group) => group.accounts)
   group?: Group
+
+  @OneToMany(() => Social, (social) => social.account, {
+    nullable: true
+  })
+  socials?: Social[]
 }
