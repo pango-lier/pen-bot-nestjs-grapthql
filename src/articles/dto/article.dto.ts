@@ -1,5 +1,5 @@
 import { SortDirection } from "@nestjs-query/core";
-import { FilterableField, FilterableOffsetConnection, FilterableRelation, IDField, KeySet, PagingStrategies, QueryOptions } from "@nestjs-query/query-graphql";
+import { FilterableField, FilterableOffsetConnection, FilterableRelation, IDField, PagingStrategies, QueryOptions } from "@nestjs-query/query-graphql";
 import { GraphQLISODateTime, ID, InputType, ObjectType } from "@nestjs/graphql";
 import { Type } from "class-transformer";
 import { IsString } from "class-validator";
@@ -8,21 +8,21 @@ import { SocialDto } from "src/socials/dto/social.dto";
 import { ArticleStatusEnum } from "../entities/article-status.enum";
 
 
-@ObjectType()
 @InputType("ArticleDtoInput")
+@ObjectType()
 @QueryOptions({
     pagingStrategy: PagingStrategies.OFFSET,
     enableTotalCount: true,
     defaultSort: [{ field: 'id', direction: SortDirection.DESC }],
 })
 @FilterableRelation('social', () => SocialDto, { nullable: true })
-// @FilterableOffsetConnection('links', () => LinkDto, {
-//     enableTotalCount: true,
-//     nullable: true,
-// })
+@FilterableOffsetConnection('links', () => LinkDto, {
+    enableTotalCount: true,
+    nullable: true,
+})
 export class ArticleDto {
     @IDField(() => ID)
-    id: number
+    id?: number
 
     @FilterableField(() => String, { nullable: true })
     @IsString()
