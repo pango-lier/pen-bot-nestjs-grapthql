@@ -1,10 +1,12 @@
-import { ObjectType } from '@nestjs/graphql';
+import { InputType, ObjectType } from '@nestjs/graphql';
 import { Link } from 'src/links/entities/link.entity';
 import { Social } from 'src/socials/entities/social.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ArticleStatusEnum } from './article-status.enum';
 
 @ObjectType()
+@InputType('ArticleInput')
+@Entity()
 export class Article {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;

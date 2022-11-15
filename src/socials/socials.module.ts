@@ -1,8 +1,21 @@
 import { Module } from '@nestjs/common';
-import { SocialsService } from './socials.service';
-import { SocialsResolver } from './socials.resolver';
+import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
+import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
+import { SocialDto } from './dto/social.dto';
+import { Social } from './entities/social.entity';
 
 @Module({
-  providers: [SocialsResolver, SocialsService]
+  providers: [],
+  imports: [
+    NestjsQueryGraphQLModule.forFeature({
+      imports: [NestjsQueryTypeOrmModule.forFeature([Social])],
+      resolvers: [
+        {
+          DTOClass: SocialDto,
+          EntityClass: Social,
+        },
+      ],
+    }),
+  ],
 })
-export class SocialsModule {}
+export class SocialsModule { }

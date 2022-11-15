@@ -1,9 +1,11 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Article } from 'src/articles/entities/article.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { LinkEnum } from './link.enum';
 
-@ObjectType()
+@ObjectType('Link')
+@InputType('LinkInput')
+@Entity()
 export class Link {
   @PrimaryGeneratedColumn({ type: "bigint" })
   id: number
@@ -17,7 +19,7 @@ export class Link {
   @Column({ type: "enum", enum: LinkEnum, default: LinkEnum.NONE })
   typeLink: LinkEnum
 
-  @Column({ type: "unsigned big int", default: 0 })
+  @Column({ type: "bigint", default: 0, unsigned: true })
   size: number
 
   @Column({ type: "tinytext", nullable: true })

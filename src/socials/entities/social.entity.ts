@@ -1,10 +1,12 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Article } from 'src/articles/entities/article.entity';
 import { Account } from 'src/users/accounts/entities/account.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { SocialEnum } from './social.enum';
 
 @ObjectType()
+@InputType('SocialInput')
+@Entity()
 export class Social {
   @PrimaryColumn({ type: "bigint" })
   id: number
