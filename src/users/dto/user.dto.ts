@@ -43,6 +43,9 @@ export class UserDto {
   @FilterableField(() => String)
   email: string;
 
+  @FilterableField(() => String, { nullable: true })
+  username?: string;
+
   @IsString()
   @MinLength(6)
   // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
