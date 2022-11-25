@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Group } from '../groups/entities/group.entity';
 import { Role } from '../roles/entities/role.entity';
 
 @ObjectType()
@@ -55,4 +56,9 @@ export class User {
     nullable: true,
   })
   notifications?: Notification[];
+
+  @OneToMany(() => Group, (group) => group.user, {
+    nullable: true,
+  })
+  groups?: Group[];
 }

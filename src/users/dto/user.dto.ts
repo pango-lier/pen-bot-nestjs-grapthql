@@ -1,10 +1,15 @@
+import { SortDirection } from '@nestjs-query/core';
 import {
   BeforeCreateMany,
   BeforeCreateOne,
   BeforeUpdateMany,
   BeforeUpdateOne,
   FilterableField,
+  FilterableOffsetConnection,
+  FilterableRelation,
   IDField,
+  PagingStrategies,
+  QueryOptions,
 } from '@nestjs-query/query-graphql';
 import { GraphQLISODateTime, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { Exclude, Type } from 'class-transformer';
@@ -16,6 +21,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
+import { AccountDto } from '../accounts/dto/account.dto';
 import {
   HashPasswordCreateManyHook,
   HashPasswordCreateOneHook,
@@ -29,6 +35,17 @@ import {
 @BeforeCreateMany(HashPasswordCreateManyHook)
 @BeforeUpdateOne(HashPasswordUpdateOneHook)
 @BeforeUpdateMany(HashPasswordUpdateManyHook)
+
+@QueryOptions({
+  pagingStrategy: PagingStrategies.OFFSET,
+  enableTotalCount: true,
+  defaultSort: [{ field: 'id', direction: SortDirection.DESC }],
+})
+
+@FilterableOffsetConnection('groups', () => AccountDto, {
+  enableTotalCount: true,
+  nullable: true,
+})
 export class UserDto {
   @IDField(() => ID)
   id?: number;
@@ -72,6 +89,9 @@ export class UserDto {
   @IsBoolean()
   @FilterableField(() => Boolean, { defaultValue: true })
   active?: boolean;
+
+  @FilterableField(() => Number, { defaultValue: true })
+  rolesId?: number
 
   @Type(() => Date)
   @FilterableField(() => GraphQLISODateTime)

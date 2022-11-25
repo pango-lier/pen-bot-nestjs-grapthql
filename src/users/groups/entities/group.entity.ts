@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Account } from 'src/users/accounts/entities/account.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { GroupEnum } from './group.enum';
 
 @InputType("GroupInput")
@@ -31,6 +32,9 @@ export class Group {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
-  @OneToOne(() => Account, (account) => account.group)
+  @OneToMany(() => Account, (account) => account.group)
   accounts?: Account[]
+
+  @ManyToOne(() => User, (user) => user.groups)
+  user?: User
 }
