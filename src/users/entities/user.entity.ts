@@ -19,11 +19,11 @@ export class User {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
 
-  @Column('varchar', { length: 191 })
-  name: string;
+  @Column('varchar', { length: 191, nullable: true })
+  name?: string;
 
   @Column('varchar', { length: 191, unique: true, nullable: true })
-  username: string;
+  username?: string;
 
   @Column('varchar', { length: 100, unique: true })
   email: string;

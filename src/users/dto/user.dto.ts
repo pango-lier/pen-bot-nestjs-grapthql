@@ -35,13 +35,11 @@ import {
 @BeforeCreateMany(HashPasswordCreateManyHook)
 @BeforeUpdateOne(HashPasswordUpdateOneHook)
 @BeforeUpdateMany(HashPasswordUpdateManyHook)
-
 @QueryOptions({
   pagingStrategy: PagingStrategies.OFFSET,
   enableTotalCount: true,
   defaultSort: [{ field: 'id', direction: SortDirection.DESC }],
 })
-
 @FilterableOffsetConnection('groups', () => AccountDto, {
   enableTotalCount: true,
   nullable: true,
@@ -50,10 +48,9 @@ export class UserDto {
   @IDField(() => ID)
   id?: number;
 
-  @IsNotEmpty()
   @IsString()
-  @FilterableField(() => String)
-  name: string;
+  @FilterableField(() => String, { nullable: true })
+  name?: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -91,7 +88,7 @@ export class UserDto {
   active?: boolean;
 
   @FilterableField(() => Number, { defaultValue: true })
-  rolesId?: number
+  rolesId?: number;
 
   @Type(() => Date)
   @FilterableField(() => GraphQLISODateTime)
