@@ -1,28 +1,37 @@
 import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Social } from 'src/socials/entities/social.entity';
 import { Group } from 'src/users/groups/entities/group.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@InputType("AccountInput")
+@InputType('AccountInput')
 @ObjectType()
 @Entity()
 export class Account {
-  @PrimaryColumn({ type: "bigint" })
-  id: number
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
-  @Column({ type: "varchar", nullable: true })
-  name: string
+  @Column({ type: 'varchar', nullable: true })
+  name: string;
 
-  @Column({ type: "varchar", nullable: true })
-  proxyId: string
+  @Column({ type: 'varchar', nullable: true })
+  proxyId: string;
 
-  @Column({ type: "varchar", nullable: true })
-  proxyType: string
+  @Column({ type: 'varchar', nullable: true })
+  proxyType: string;
 
   @Column('bool', { default: true })
   active?: boolean;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   expiresAt?: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -34,11 +43,14 @@ export class Account {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
+  @Column({ type: 'bigint', nullable: true })
+  groupId: number;
+
   @ManyToOne(() => Group, (group) => group.accounts)
-  group?: Group
+  group?: Group;
 
   @OneToMany(() => Social, (social) => social.account, {
-    nullable: true
+    nullable: true,
   })
-  socials?: Social[]
+  socials?: Social[];
 }

@@ -1,30 +1,39 @@
 import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
 import { Article } from 'src/articles/entities/article.entity';
 import { Account } from 'src/users/accounts/entities/account.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { SocialEnum } from './social.enum';
 
 @ObjectType()
 @InputType('SocialInput')
 @Entity()
 export class Social {
-  @PrimaryColumn({ type: "bigint" })
-  id: number
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
-  @Column({ type: "varchar", nullable: true })
-  email: string
+  @Column({ type: 'varchar', nullable: true })
+  email: string;
 
-  @Column({ type: "varchar", nullable: true })
-  name: string
+  @Column({ type: 'varchar', nullable: true })
+  name: string;
 
-  @Column({ type: "varchar", nullable: true })
-  username: string
+  @Column({ type: 'varchar', nullable: true })
+  username: string;
 
-  @Column({ type: "varchar", nullable: true })
-  password: string
+  @Column({ type: 'varchar', nullable: true })
+  password: string;
 
-  @Column({ type: "enum", enum: SocialEnum, default: SocialEnum.NONE })
-  socialType: SocialEnum
+  @Column({ type: 'enum', enum: SocialEnum, default: SocialEnum.NONE })
+  socialType: SocialEnum;
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
@@ -36,11 +45,11 @@ export class Social {
   updatedAt: Date;
 
   @ManyToOne(() => Account, (account) => account.socials, {
-    nullable: true
+    nullable: true,
   })
-  account?: Account
+  account?: Account;
   @OneToMany(() => Article, (article) => article.social, {
-    nullable: true
+    nullable: true,
   })
-  articles?: Article[]
+  articles?: Article[];
 }
