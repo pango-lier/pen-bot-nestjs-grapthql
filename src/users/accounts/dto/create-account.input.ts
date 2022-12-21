@@ -1,7 +1,10 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, OmitType } from '@nestjs/graphql';
+import { AccountDto } from './account.dto';
 
 @InputType()
-export class CreateAccountInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateAccountInput extends OmitType(AccountDto, [
+  'id',
+  'createdAt',
+  'updatedAt',
+  'deletedAt',
+]) {}

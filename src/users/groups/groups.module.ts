@@ -3,19 +3,17 @@ import { GroupDto } from './dto/group.dto';
 import { Group } from './entities/group.entity';
 import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
 import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
+import { GroupsService } from './groups.service';
+import { GroupsResolver } from './groups.resolver';
 
 @Module({
-  providers: [],
+  providers: [GroupsService, GroupsResolver],
   imports: [
     NestjsQueryGraphQLModule.forFeature({
       imports: [NestjsQueryTypeOrmModule.forFeature([Group])],
-      resolvers: [
-        {
-          DTOClass: GroupDto,
-          EntityClass: Group,
-        },
-      ],
+      services: [GroupsService],
+      dtos: [{ DTOClass: GroupDto }],
     }),
   ],
 })
-export class GroupsModule { }
+export class GroupsModule {}

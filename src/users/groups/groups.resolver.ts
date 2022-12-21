@@ -1,35 +1,36 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { GroupsService } from './groups.service';
-import { Group } from './entities/group.entity';
 import { CreateGroupInput } from './dto/create-group.input';
 import { UpdateGroupInput } from './dto/update-group.input';
+import { GroupDto } from './dto/group.dto';
+import {
+  CRUDResolver,
+  FilterType,
+  UpdateManyResponseType,
+} from '@nestjs-query/query-graphql';
+import { Filter, UpdateManyResponse } from '@nestjs-query/core';
 
-@Resolver(() => Group)
-export class GroupsResolver {
-  constructor(private readonly groupsService: GroupsService) {}
-
-  @Mutation(() => Group)
-  createGroup(@Args('createGroupInput') createGroupInput: CreateGroupInput) {
-    return this.groupsService.create(createGroupInput);
+@Resolver(() => GroupDto)
+export class GroupsResolver extends CRUDResolver(GroupDto, {
+  CreateDTOClass: CreateGroupInput,
+  UpdateDTOClass: UpdateGroupInput,
+}) {
+  constructor(readonly service: GroupsService) {
+    super(service);
   }
 
-  @Query(() => [Group], { name: 'groups' })
-  findAll() {
-    return this.groupsService.findAll();
+  @Mutation(() => GroupDto)
+  restoreOneUser(
+    @Args('input', { type: () => ID }) id: number,
+  ): Promise<GroupDto> {
+    return this.service.restoreOne(id);
   }
 
-  @Query(() => Group, { name: 'group' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.groupsService.findOne(id);
-  }
-
-  @Mutation(() => Group)
-  updateGroup(@Args('updateGroupInput') updateGroupInput: UpdateGroupInput) {
-    return this.groupsService.update(updateGroupInput.id, updateGroupInput);
-  }
-
-  @Mutation(() => Group)
-  removeGroup(@Args('id', { type: () => Int }) id: number) {
-    return this.groupsService.remove(id);
+  @Mutation(() => UpdateManyResponseType())
+  restoreManyUsers(
+    @Args('input', { type: () => FilterType(GroupDto) })
+    filter: Filter<GroupDto>,
+  ): Promise<UpdateManyResponse> {
+    return this.service.restoreMany(filter);
   }
 }

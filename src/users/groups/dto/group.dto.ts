@@ -12,8 +12,8 @@ import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { AccountDto } from 'src/users/accounts/dto/account.dto';
 import { GroupEnum } from '../entities/group.enum';
 
-@ObjectType()
 @InputType('GroupDtoInput')
+@ObjectType()
 @QueryOptions({
   pagingStrategy: PagingStrategies.OFFSET,
   enableTotalCount: true,
