@@ -17,8 +17,8 @@ import {
 } from 'class-validator';
 import { GroupDto } from 'src/users/groups/dto/group.dto';
 
-@ObjectType()
 @InputType('AccountDtoInput')
+@ObjectType()
 @QueryOptions({
   pagingStrategy: PagingStrategies.OFFSET,
   enableTotalCount: true,

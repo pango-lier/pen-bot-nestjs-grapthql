@@ -3,20 +3,18 @@ import { AccountDto } from './dto/account.dto';
 import { Account } from './entities/account.entity';
 import { NestjsQueryGraphQLModule } from '@nestjs-query/query-graphql';
 import { NestjsQueryTypeOrmModule } from '@nestjs-query/query-typeorm';
+import { AccountsService } from './accounts.service';
+import { AccountsResolver } from './accounts.resolver';
 
 @Module({
-  providers: [],
+  providers: [AccountsResolver, AccountsService],
   imports: [
     NestjsQueryGraphQLModule.forFeature({
       imports: [NestjsQueryTypeOrmModule.forFeature([Account])],
-      resolvers: [
-        {
-          DTOClass: AccountDto,
-          EntityClass: Account,
-        },
-      ],
+      services: [AccountsService],
+      dtos: [{ DTOClass: AccountDto }],
     }),
   ],
+  exports: [AccountsService],
 })
-export class AccountsModule { }
-
+export class AccountsModule {}

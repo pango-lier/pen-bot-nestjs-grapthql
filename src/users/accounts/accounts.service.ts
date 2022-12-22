@@ -1,26 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAccountInput } from './dto/create-account.input';
-import { UpdateAccountInput } from './dto/update-account.input';
+import { Account } from './entities/account.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryService } from '@nestjs-query/core';
+import { Repository } from 'typeorm';
+import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
 
-@Injectable()
-export class AccountsService {
-  create(createAccountInput: CreateAccountInput) {
-    return 'This action adds a new account';
-  }
-
-  findAll() {
-    return `This action returns all accounts`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} account`;
-  }
-
-  update(id: number, updateAccountInput: UpdateAccountInput) {
-    return `This action updates a #${id} account`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} account`;
+@QueryService(Account)
+export class AccountsService extends TypeOrmQueryService<Account> {
+  constructor(@InjectRepository(Account) repo: Repository<Account>) {
+    super(repo, { useSoftDelete: true });
   }
 }
